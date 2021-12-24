@@ -4,10 +4,9 @@ import net.mamoe.mirai.console.command.CommandSender
 import net.mamoe.mirai.console.command.SimpleCommand
 import net.mamoe.mirai.console.command.descriptor.ExperimentalCommandDescriptors
 import net.mamoe.mirai.console.util.ConsoleExperimentalApi
-import net.mamoe.mirai.contact.User
-import net.mamoe.mirai.contact.nameCardOrNick
-import org.laolittle.plugin.bandata.BlackList
 import org.laolittle.plugin.MiraiBlackList
+import org.laolittle.plugin.bandata.BlackList
+import org.laolittle.plugin.utils.Tools.getNameCardOrId
 
 @OptIn(ExperimentalCommandDescriptors::class, ConsoleExperimentalApi::class)
 object Remove : SimpleCommand(
@@ -17,12 +16,14 @@ object Remove : SimpleCommand(
     override val prefixOptional: Boolean = true
 
     @Handler
-    suspend fun CommandSender.handle(whiteUser: User? = null){
-        if (whiteUser == null){
+    suspend fun CommandSender.handle(unbanId: Long? = null){
+        if (unbanId == null){
             sendMessage("请@或者输入要解除黑名单的用户的id")
             return
         }
-        BlackList.blackList.remove(whiteUser.id)
-        sendMessage("已将${whiteUser.nameCardOrNick} 移出黑名单")
+        val nameOrId = bot?.getNameCardOrId(unbanId) ?: unbanId
+
+        BlackList.blackList.remove(unbanId)
+        sendMessage("已将$nameOrId 移出黑名单")
     }
 }
