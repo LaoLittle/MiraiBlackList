@@ -33,6 +33,9 @@ object Add : SimpleCommand(
                 BlackList.blackList[blackId] = 0
                 sendMessage("已将$nameOrId 加入黑名单")
             }
+            (time.replace(Regex("""\D"""), "").toLong() <= 0) || time.contains(Regex("""\D""")) -> {
+                sendMessage("时间不正确！")
+            }
             time.contains(Regex("(m|分钟|min)")) -> {
                 sendMessage("已将$nameOrId 加入黑名单，将在${time.replace(Regex("(m|分钟|min)"), "分钟")}后解除")
             }
