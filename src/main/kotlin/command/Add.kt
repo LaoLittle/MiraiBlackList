@@ -25,10 +25,10 @@ object Add : SimpleCommand(
         }
         val findUser = if (blackId.contains(Regex("""\D"""))) subject?.getUserOrNull(blackId)
         else bot?.getFriend(blackId.toLong()) ?: bot?.getStranger(blackId.toLong())
-        val nameOrId = findUser?.nameCardOrNick ?: blackId
         val id = runCatching { findUser?.id ?: blackId.toLong() }.onFailure {
             sendMessage("无法推断目标用户，请尝试使用QQ号！")
         }.getOrNull() ?: return
+        val nameOrId = findUser?.nameCardOrNick ?: blackId
 
         if (BlackList.blackList.contains(id)) {
             sendMessage("$nameOrId 已在黑名单中")

@@ -29,6 +29,7 @@ object Tools {
      * 从一个群中模糊搜索昵称是[nameCard]的群员
      * @param nameCard 群员昵称
      * @return Member if only one exist or null otherwise
+     * @author mamoe
      * */
     private suspend fun Group.findMemberOrNull(nameCard: String): Member? {
         this.members.singleOrNull { it.nameCardOrNick.contains(nameCard) }?.let { return it }
