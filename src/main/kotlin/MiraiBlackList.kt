@@ -7,7 +7,7 @@ import net.mamoe.mirai.event.EventPriority
 import net.mamoe.mirai.event.GlobalEventChannel
 import net.mamoe.mirai.event.events.MessageEvent
 import net.mamoe.mirai.utils.info
-import org.laolittle.plugin.BlackMan.BlackList
+import org.laolittle.plugin.bandata.BlackList
 import org.laolittle.plugin.command.Add
 import org.laolittle.plugin.command.Remove
 

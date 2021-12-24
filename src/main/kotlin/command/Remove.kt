@@ -6,7 +6,7 @@ import net.mamoe.mirai.console.command.descriptor.ExperimentalCommandDescriptors
 import net.mamoe.mirai.console.util.ConsoleExperimentalApi
 import net.mamoe.mirai.contact.User
 import net.mamoe.mirai.contact.nameCardOrNick
-import org.laolittle.plugin.BlackMan.BlackList
+import org.laolittle.plugin.bandata.BlackList
 import org.laolittle.plugin.MiraiBlackList
 
 @OptIn(ExperimentalCommandDescriptors::class, ConsoleExperimentalApi::class)
