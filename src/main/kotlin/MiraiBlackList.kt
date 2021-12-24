@@ -23,7 +23,7 @@ object MiraiBlackList : KotlinPlugin(
 ) {
     override fun onEnable() {
         BlackList.reload()
-        logger.info { "黑名单系统已加载" }
+        logger.info { "黑名单数据已加载" }
         Add.register()
         Remove.register()
         GlobalEventChannel.subscribeAlways<MessageEvent>(

@@ -23,6 +23,11 @@ object Remove : SimpleCommand(
         }
         val nameOrId = bot?.getNameCardOrId(unbanId) ?: unbanId
 
+        if (!BlackList.blackList.contains(unbanId)){
+            sendMessage("$nameOrId 不在黑名单中")
+            return
+        }
+
         BlackList.blackList.remove(unbanId)
         sendMessage("已将$nameOrId 移出黑名单")
     }

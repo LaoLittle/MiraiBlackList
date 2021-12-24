@@ -24,6 +24,10 @@ object Add : SimpleCommand(
         }
         val nameOrId = bot?.getNameCardOrId(blackId) ?: blackId
 
+        if (BlackList.blackList.contains(blackId)){
+            sendMessage("$nameOrId 已在黑名单中")
+            return
+        }
         when{
             time.isNullOrEmpty() -> {
                 BlackList.blackList[blackId] = 0
