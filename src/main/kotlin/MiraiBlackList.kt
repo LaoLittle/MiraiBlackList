@@ -16,7 +16,7 @@ object MiraiBlackList : KotlinPlugin(
     JvmPluginDescription(
         id = "org.laolittle.plugin.MiraiBlackList",
         name = "MiraiBlackList",
-        version = "1.1",
+        version = "1.1.1",
     ) {
         author("LaoLittle")
         info("""全局黑名单""")
