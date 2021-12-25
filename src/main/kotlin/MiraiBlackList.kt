@@ -10,9 +10,7 @@ import net.mamoe.mirai.event.events.NudgeEvent
 import net.mamoe.mirai.event.events.UserEvent
 import net.mamoe.mirai.utils.info
 import org.laolittle.plugin.bandata.BlackList
-import org.laolittle.plugin.command.Add
-import org.laolittle.plugin.command.List
-import org.laolittle.plugin.command.Remove
+import org.laolittle.plugin.command.BlackListCommand
 
 object MiraiBlackList : KotlinPlugin(
     JvmPluginDescription(
@@ -27,9 +25,7 @@ object MiraiBlackList : KotlinPlugin(
     override fun onEnable() {
         BlackList.reload()
         logger.info { "黑名单数据已加载" }
-        Add.register()
-        List.register()
-        Remove.register()
+        BlackListCommand.register()
         GlobalEventChannel.subscribeAlways<MessageEvent>(
             priority = EventPriority.HIGHEST
         ) {
