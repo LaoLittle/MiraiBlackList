@@ -7,8 +7,8 @@ import net.mamoe.mirai.console.util.ConsoleExperimentalApi
 import net.mamoe.mirai.contact.nameCardOrNick
 import net.mamoe.mirai.message.data.buildMessageChain
 import org.laolittle.plugin.MiraiBlackList
-import org.laolittle.plugin.bandata.BlackList
-import org.laolittle.plugin.utils.Tools.getUserOrNull
+import org.laolittle.plugin.bandata.BlackList.blackList
+import org.laolittle.plugin.utils.Tools.getMemberOrNull
 
 object BlackListCommand : CompositeCommand(
     MiraiBlackList, "blacklist", "bl",
@@ -23,20 +23,22 @@ object BlackListCommand : CompositeCommand(
             sendMessage("请@或输入要加入黑名单的用户的id")
             return
         }
-        val findUser = subject?.getUserOrNull(blackId)
-            ?: bot?.getFriend(blackId.toLong()) ?: bot?.getStranger(blackId.toLong())
+        val findUser = subject?.getMemberOrNull(blackId)
+            ?: bot?.getFriend(blackId.toLong())
+            ?: bot?.getStranger(blackId.toLong())
         val id = runCatching { findUser?.id ?: blackId.toLong() }.onFailure {
             sendMessage("无法推断目标用户，请尝试使用QQ号！")
         }.getOrNull() ?: return
         val nameOrId = findUser?.nameCardOrNick ?: blackId
 
-        if (BlackList.blackList.contains(id)) {
+        if (blackList.contains(id)) {
             sendMessage("$nameOrId 已在黑名单中")
             return
         }
+
         when {
             time.isNullOrEmpty() -> {
-                BlackList.blackList[id] = 0
+                blackList[id] = 0
                 sendMessage("已将$nameOrId 加入黑名单")
             }
             (time.replace(Regex("""\D"""), "").toLong() <= 0) || time.contains(Regex("""\D""")) -> {
@@ -54,20 +56,21 @@ object BlackListCommand : CompositeCommand(
             sendMessage("请@或者输入要解除黑名单的用户的id")
             return
         }
-        val findUser = subject?.getUserOrNull(unbanId)
-            ?: bot?.getFriend(unbanId.toLong()) ?: bot?.getStranger(unbanId.toLong())
+        val findUser = subject?.getMemberOrNull(unbanId)
+            ?: bot?.getFriend(unbanId.toLong())
+            ?: bot?.getStranger(unbanId.toLong())
         val nameOrId = findUser?.nameCardOrNick ?: unbanId
         val id = runCatching { findUser?.id ?: unbanId.toLong() }.onFailure {
             sendMessage("无法推断目标用户，请尝试使用QQ号！")
         }.getOrNull() ?: return
 
 
-        if (!BlackList.blackList.contains(id)) {
+        if (!blackList.contains(id)) {
             sendMessage("$nameOrId 不在黑名单中")
             return
         }
 
-        BlackList.blackList.remove(id)
+        blackList.remove(id)
         sendMessage("已将$nameOrId 移出黑名单")
     }
 
@@ -75,7 +78,7 @@ object BlackListCommand : CompositeCommand(
     suspend fun CommandSender.list() {
         val banned = buildMessageChain {
             add("黑名单列表: \n")
-            BlackList.blackList.keys.forEach {
+            blackList.keys.forEach {
                 add("$it ,")
             }
         }

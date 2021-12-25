@@ -7,7 +7,7 @@ import net.mamoe.mirai.contact.*
 
 object Tools {
 
-    suspend fun Contact.getUserOrNull(msg: String): User? {
+    suspend fun Contact.getMemberOrNull(msg: String): User? {
         val noneAt = msg.replace("@", "")
         if (noneAt.isBlank()) {
             return null
