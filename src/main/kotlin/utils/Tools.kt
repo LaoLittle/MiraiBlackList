@@ -6,8 +6,14 @@ import net.mamoe.mirai.console.internal.truncate
 import net.mamoe.mirai.contact.*
 
 object Tools {
-
-    suspend fun Contact.getMemberOrNull(msg: String): User? {
+    /**
+     * 通过消息获取联系人
+     * 若[Contact]为[Group]，则可通过群员昵称获取联系人
+     * 否则通过QQ号查找，查找失败返回``null``
+     * @param msg 传入的消息[String]
+     * @return User if only one is found null otherwise
+     * */
+    suspend fun Contact.getUserOrNull(msg: String): User? {
         val noneAt = msg.replace("@", "")
         if (noneAt.isBlank()) {
             return null
@@ -18,9 +24,10 @@ object Tools {
                 else -> null
             }
         } else {
+            val number = noneAt.toLong()
             when (this) {
-                is Group -> this[noneAt.toLong()]
-                else -> bot.getFriend(noneAt.toLong()) ?: bot.getStranger(noneAt.toLong())
+                is Group -> this[number]
+                else -> bot.getFriend(number) ?: bot.getStranger(number)
             }
         }
     }

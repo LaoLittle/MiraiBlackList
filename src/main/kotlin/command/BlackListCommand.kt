@@ -8,7 +8,7 @@ import net.mamoe.mirai.contact.nameCardOrNick
 import net.mamoe.mirai.message.data.buildMessageChain
 import org.laolittle.plugin.MiraiBlackList
 import org.laolittle.plugin.bandata.BlackList.blackList
-import org.laolittle.plugin.utils.Tools.getMemberOrNull
+import org.laolittle.plugin.utils.Tools.getUserOrNull
 
 object BlackListCommand : CompositeCommand(
     MiraiBlackList, "blacklist", "bl",
@@ -23,9 +23,7 @@ object BlackListCommand : CompositeCommand(
             sendMessage("请@或输入要加入黑名单的用户的id")
             return
         }
-        val findUser = subject?.getMemberOrNull(blackId)
-            ?: bot?.getFriend(blackId.toLong())
-            ?: bot?.getStranger(blackId.toLong())
+        val findUser = subject?.getUserOrNull(blackId)
         val id = runCatching { findUser?.id ?: blackId.toLong() }.onFailure {
             sendMessage("无法推断目标用户，请尝试使用QQ号！")
         }.getOrNull() ?: return
@@ -56,9 +54,7 @@ object BlackListCommand : CompositeCommand(
             sendMessage("请@或者输入要解除黑名单的用户的id")
             return
         }
-        val findUser = subject?.getMemberOrNull(unbanId)
-            ?: bot?.getFriend(unbanId.toLong())
-            ?: bot?.getStranger(unbanId.toLong())
+        val findUser = subject?.getUserOrNull(unbanId)
         val nameOrId = findUser?.nameCardOrNick ?: unbanId
         val id = runCatching { findUser?.id ?: unbanId.toLong() }.onFailure {
             sendMessage("无法推断目标用户，请尝试使用QQ号！")
