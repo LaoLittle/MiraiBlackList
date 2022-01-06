@@ -1,8 +1,5 @@
 package org.laolittle.plugin.utils
 
-import net.mamoe.mirai.console.internal.fuzzySearchMember
-import net.mamoe.mirai.console.internal.toDecimalPlace
-import net.mamoe.mirai.console.internal.truncate
 import net.mamoe.mirai.contact.*
 
 object Tools {
